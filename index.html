@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Name Love Calculator</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background-image: url('https://images.crazygames.com/true-love-calculator-nzw/20230210084911/true-love-calculator-nzw-cover?auto=format%2Ccompress&q=45&cs=strip&ch=DPR&w=1200&h=630&fit=crop');
+        background-size: cover;
+        background-position: center;
+        padding: 20px;
+        margin: 0;
+    }
+    #container {
+        background-color: rgba(255, 255, 255, 0.8); /* Adding opacity to the container */
+        padding: 20px;
+        border-radius: 10px;
+    }
+    #result {
+        font-size: 24px;
+        margin-top: 20px;
+    }
+    input[type="text"], button {
+        padding: 10px;
+        margin: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    button {
+        cursor: pointer;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        transition: background-color 0.3s;
+    }
+    button:hover {
+        background-color: #45a049;
+    }
+</style>
+</head>
+<body>
+<div id="container">
+<h1>Name Love Calculator</h1>
+<p>Enter two names and find out your love compatibility:</p>
+<input type="text" id="name1" placeholder="Name 1"><br><br>
+<input type="text" id="name2" placeholder="Name 2"><br><br>
+<button onclick="calculateLove()">Calculate</button><br>
+<div id="result"></div>
+</div>
+
+<script>
+function calculateLove() {
+    var name1 = document.getElementById("name1").value.trim().toLowerCase();
+    var name2 = document.getElementById("name2").value.trim().toLowerCase();
+
+    if (!name1 || !name2) {
+        alert("Please enter both names.");
+        return;
+    }
+
+    var loveScore = getLoveScore(name1, name2);
+    var lovePercentage = calculatePercentage(loveScore, Math.min(name1.length, name2.length) * 2);
+    var loveMessage = getLoveMessage(lovePercentage);
+
+    document.getElementById("result").innerHTML = `<p>Love Percentage: <strong>${lovePercentage.toFixed(2)}%</strong></p><p>${loveMessage}</p>`;
+}
+
+function getLoveScore(name1, name2) {
+    var score = 0;
+
+    // Loop through each character in the first name
+    for (var i = 0; i < name1.length; i++) {
+        // Loop through each character in the second name
+        for (var j = 0; j < name2.length; j++) {
+            // If characters match, increase the score
+            if (name1[i] === name2[j]) {
+                score += 2;
+                // Remove the matched character from the second name to avoid duplicate counting
+                name2 = name2.slice(0, j) + name2.slice(j + 1);
+                break; // Move to the next character in the first name
+            }
+        }
+    }
+
+    return score;
+}
+
+function calculatePercentage(score, totalScore) {
+    return (score / totalScore) * 100;
+}
+
+function getLoveMessage(lovePercentage) {
+    if (lovePercentage >= 80) {
+        return "Wow! You're a perfect match!";
+    } else if (lovePercentage >= 60) {
+        return "You two are quite compatible!";
+    } else if (lovePercentage >= 40) {
+        return "Hmm... It could work!";
+    } else {
+        return "Maybe it's not meant to be...";
+    }
+}
+</script>
+</body>
+</html>
